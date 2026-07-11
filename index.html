@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROGUE // Cheat Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --bg2:#12121a;
+    --card:#16161f;
+    --card-hover:#1c1c28;
+    --border:#26263a;
+    --text:#e8e8f0;
+    --muted:#7a7a94;
+    --accent:#ff2e63;
+    --accent2:#00f0ff;
+    --green:#00ff9d;
+    --warn:#ffb800;
+    --danger:#ff3d3d;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Space Grotesk',sans-serif;
+    line-height:1.6;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(255,46,99,0.08), transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(0,240,255,0.06), transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* NAV */
+  header{
+    position:sticky;top:0;z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(10,10,15,0.75);
+    border-bottom:1px solid var(--border);
+  }
+  nav{
+    max-width:1400px;margin:0 auto;
+    padding:1.1rem 2rem;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;font-size:1.4rem;
+    letter-spacing:-0.02em;
+    display:flex;align-items:center;gap:0.5rem;
+  }
+  .logo span{color:var(--accent)}
+  .logo::before{
+    content:'';width:10px;height:10px;
+    background:var(--green);
+    border-radius:50%;
+    box-shadow:0 0 12px var(--green);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{50%{opacity:0.4}}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{
+    color:var(--muted);
+    text-decoration:none;
+    font-size:0.92rem;
+    font-weight:500;
+    transition:color 0.2s;
+  }
+  .nav-links a:hover{color:var(--text)}
+
+  /* HERO */
+  .hero{
+    max-width:1400px;margin:0 auto;
+    padding:6rem 2rem 4rem;
+    position:relative;z-index:1;
+  }
+  .hero-tag{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;
+    color:var(--accent2);
+    border:1px solid var(--border);
+    padding:0.4rem 0.9rem;
+    border-radius:99px;
+    margin-bottom:1.5rem;
+  }
+  .hero h1{
+    font-size:clamp(2.5rem,6vw,4.8rem);
+    line-height:1;
+    letter-spacing:-0.03em;
+    font-weight:700;
+    margin-bottom:1.2rem;
+  }
+  .hero h1 .grad{
+    background:linear-gradient(120deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero p{
+    color:var(--muted);
+    max-width:640px;
+    font-size:1.1rem;
+    margin-bottom:2rem;
+  }
+  .hero-stats{
+    display:flex;gap:2.5rem;flex-wrap:wrap;
+    margin-top:2.5rem;
+    padding-top:2rem;
+    border-top:1px solid var(--border);
+  }
+  .stat .num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:1.8rem;font-weight:700;
+    color:var(--text);
+  }
+  .stat .lbl{
+    font-size:0.78rem;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+  }
+
+  /* SEARCH */
+  .search-wrap{
+    max-width:1400px;margin:0 auto;
+    padding:0 2rem 3rem;
+    position:relative;z-index:1;
+  }
+  .search{
+    width:100%;
+    padding:1.1rem 1.4rem;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    color:var(--text);
+    font-family:inherit;
+    font-size:1rem;
+    transition:border 0.2s;
+  }
+  .search:focus{outline:none;border-color:var(--accent)}
+
+  /* SECTIONS */
+  section.grid-wrap{
+    max-width:1400px;margin:0 auto;
+    padding:2rem 2rem 4rem;
+    position:relative;z-index:1;
+  }
+  .section-title{
+    display:flex;align-items:baseline;gap:1rem;
+    margin-bottom:1.8rem;
+    padding-bottom:0.8rem;
+    border-bottom:1px solid var(--border);
+  }
+  .section-title h2{
+    font-size:1.6rem;
+    letter-spacing:-0.01em;
+  }
+  .section-title .count{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--muted);
+    font-size:0.85rem;
+  }
+
+  /* CARDS */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:1.2rem;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:1.4rem;
+    text-decoration:none;
+    color:inherit;
+    position:relative;
+    overflow:hidden;
+    transition:all 0.25s cubic-bezier(0.4,0,0.2,1);
+    display:flex;flex-direction:column;
+    min-height:170px;
+  }
+  .card::before{
+    content:'';
+    position:absolute;
+    top:0;left:0;right:0;
+    height:2px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform 0.3s;
+  }
+  .card:hover{
+    background:var(--card-hover);
+    border-color:#3a3a55;
+    transform:translateY(-3px);
+  }
+  .card:hover::before{transform:scaleX(1)}
+  .card-head{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    margin-bottom:0.7rem;
+    gap:0.8rem;
+  }
+  .card-title{
+    font-size:1.15rem;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.68rem;
+    padding:0.25rem 0.55rem;
+    border-radius:5px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    white-space:nowrap;
+  }
+  .b-free{background:rgba(0,255,157,0.12);color:var(--green);border:1px solid rgba(0,255,157,0.25)}
+  .b-paid{background:rgba(255,184,0,0.12);color:var(--warn);border:1px solid rgba(255,184,0,0.25)}
+  .b-warn{background:rgba(255,61,61,0.12);color:var(--danger);border:1px solid rgba(255,61,61,0.25)}
+  .b-hot{background:rgba(255,46,99,0.15);color:var(--accent);border:1px solid rgba(255,46,99,0.3)}
+  .b-info{background:rgba(0,240,255,0.1);color:var(--accent2);border:1px solid rgba(0,240,255,0.25)}
+  .card-desc{
+    color:var(--muted);
+    font-size:0.9rem;
+    margin-bottom:1rem;
+    flex:1;
+  }
+  .card-foot{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    color:var(--muted);
+  }
+  .card-foot .arrow{
+    color:var(--accent2);
+    transition:transform 0.2s;
+  }
+  .card:hover .arrow{transform:translateX(4px)}
+
+  /* GRAYED */
+  .card.disabled-visual{
+    opacity:0.55;
+    filter:grayscale(0.7);
+  }
+  .card.disabled-visual:hover{opacity:0.75}
+
+  /* FOOTER */
+  footer{
+    border-top:1px solid var(--border);
+    padding:3rem 2rem 2rem;
+    text-align:center;
+    color:var(--muted);
+    font-size:0.85rem;
+    position:relative;z-index:1;
+  }
+  footer .warn{
+    max-width:800px;margin:0 auto 1.5rem;
+    padding:1.2rem;
+    background:rgba(255,184,0,0.06);
+    border:1px solid rgba(255,184,0,0.2);
+    border-radius:10px;
+    color:var(--warn);
+    font-size:0.85rem;
+  }
+
+  @media(max-width:768px){
+    .nav-links{display:none}
+    .hero{padding:3rem 1.2rem 2rem}
+    section.grid-wrap{padding:1.5rem 1.2rem 3rem}
+    .search-wrap{padding:0 1.2rem 2rem}
+    nav{padding:1rem 1.2rem}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">ROGUE<span>//</span>vault</div>
+    <ul class="nav-links">
+      <li><a href="#shooters">Shooters</a></li>
+      <li><a href="#sandbox">Sandbox</a></li>
+      <li><a href="#horror">Horror</a></li>
+      <li><a href="#minecraft">Minecraft</a></li>
+      <li><a href="#misc">Misc</a></li>
+      <li><a href="#utility">Utility</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-tag">// v2026.07 · online</div>
+  <h1>Curated <span class="grad">cheats & tools</span><br>for people who play different.</h1>
+  <p>A directory of trusted menus, injectors, unlockers and pirate havens — sorted, tagged, and kept alive by people who actually use them.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="num">30+</div><div class="lbl">Tools indexed</div></div>
+    <div class="stat"><div class="num">17</div><div class="lbl">Games covered</div></div>
+    <div class="stat"><div class="num">24/7</div><div class="lbl">Community mirrors</div></div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <input type="text" class="search" id="searchBox" placeholder="search — try 'gta', 'minecraft', 'aimbot'...">
+</div>
+
+<!-- SHOOTERS -->
+<section class="grid-wrap" id="shooters">
+  <div class="section-title"><h2>Shooters & Competitive</h2><span class="count">// 10 entries</span></div>
+  <div class="grid">
+
+    <a class="card" href="https://www.unknowncheats.me/forum/rainbow-six-siege/752724-r6-lua-recoil-script.html" target="_blank" data-tags="r6 rainbow siege recoil">
+      <div class="card-head"><div class="card-title">R6S · No Recoil Script</div><span class="badge b-free">Free</span></div>
+      <div class="card-desc">Lua-based recoil compensation for Rainbow Six Siege. Lightweight external.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.unknowncheats.me/forum/rainbow-six-siege/755508-r6-ai-aim-using-directml-updated.html" target="_blank" data-tags="r6 rainbow siege aim ai directml">
+      <div class="card-head"><div class="card-title">R6S · AI Aim (DirectML)</div><span class="badge b-hot">AI</span></div>
+      <div class="card-desc">Neural-net driven aim assistance for Siege using DirectML. Frequently updated.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card disabled-visual" href="https://www.unknowncheats.me/forum/rainbow-six-siege/717390-charlie-kirkware-r6-cheat.html" target="_blank" data-tags="r6 rainbow siege internal">
+      <div class="card-head"><div class="card-title">R6S · Charlie Kirkware</div><span class="badge b-warn">DL Unknown</span></div>
+      <div class="card-desc">Full internal cheat for Siege. Current download link status unresolved — clickable anyway.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://lmaobox.net/" target="_blank" data-tags="tf2 team fortress lmaobox">
+      <div class="card-head"><div class="card-title">TF2 · LMAOBOX</div><span class="badge b-paid">Paid + Free</span></div>
+      <div class="card-desc">Legacy TF2 cheat. Paid tier is basically undetected; free tier is fully detected — use with head.</div>
+      <div class="card-foot"><span>lmaobox.net</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.unknowncheats.me/forum/team-fortress-2-a/759431-seo64-fixed-june-26-2026-a.html" target="_blank" data-tags="tf2 team fortress seo64 free">
+      <div class="card-head"><div class="card-title">TF2 · SEO64 (Fixed)</div><span class="badge b-hot">Best Free</span></div>
+      <div class="card-desc">The current top-tier free TF2 cheat. Fixed release from June 2026, actively maintained.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.unknowncheats.me/forum/team-fortress-2-a/758050-neu3.html" target="_blank" data-tags="tf2 team fortress neu3">
+      <div class="card-head"><div class="card-title">TF2 · Neu3</div><span class="badge b-free">Free</span></div>
+      <div class="card-desc">Slightly rougher free TF2 alternative to SEO64. Still functional, still ban-risk.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.unknowncheats.me/forum/counter-strike-2-a/739784-laura-external.html" target="_blank" data-tags="cs2 counter strike laura external">
+      <div class="card-head"><div class="card-title">CS2 · Laura External</div><span class="badge b-free">External</span></div>
+      <div class="card-desc">External cheat for Counter-Strike 2. Clean codebase, well-regarded by the UC community.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.unknowncheats.me/forum/fortnite/703352-fortnite-ai-aimbot-update.html" target="_blank" data-tags="fortnite aimbot ai">
+      <div class="card-head"><div class="card-title">Fortnite · AI Aimbot</div><span class="badge b-hot">AI</span></div>
+      <div class="card-desc">Vision-based aimbot for Fortnite. External. Long-running project with active updates.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.unknowncheats.me/forum/other-games/759051-meccha-chameleon-auto-painter-camoflague-custom-images.html" target="_blank" data-tags="meccha chameleon painter">
+      <div class="card-head"><div class="card-title">Meccha Chameleon · Auto-Painter</div><span class="badge b-info">Utility</span></div>
+      <div class="card-desc">Auto-painter for camouflage and custom images. Quality-of-life tool for the artistic type.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://fearlesscheatengine.net/geoguessr-steam-edition-cheat-engine/" target="_blank" data-tags="geoguessr cheat engine">
+      <div class="card-head"><div class="card-title">GeoGuessr Steam · CE Table</div><span class="badge b-free">Free</span></div>
+      <div class="card-desc">Cheat Engine table for the Steam edition of GeoGuessr. Because knowing is winning.</div>
+      <div class="card-foot"><span>fearlesscheatengine.net</span><span class="arrow">→</span></div>
+    </a>
+
+  </div>
+</section>
+
+<!-- SANDBOX / GTA -->
+<section class="grid-wrap" id="sandbox">
+  <div class="section-title"><h2>GTA & Sandbox</h2><span class="count">// 6 entries</span></div>
+  <div class="grid">
+
+    <a class="card" href="https://github.com/YimMenu/YimMenuV2" target="_blank" data-tags="gta enhanced yimmenu v2">
+      <div class="card-head"><div class="card-title">GTA Enhanced · YimMenu V2</div><span class="badge b-hot">Best Enhanced</span></div>
+      <div class="card-desc">The top-tier open-source menu for GTA Enhanced. Actively maintained, feature-complete.</div>
+      <div class="card-foot"><span>github.com/YimMenu</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://github.com/Mr-X-GTA/YimMenu" target="_blank" data-tags="gta legacy yimmenu mr-x">
+      <div class="card-head"><div class="card-title">GTA Legacy · YimMenu (Mr-X)</div><span class="badge b-hot">Best Legacy</span></div>
+      <div class="card-desc">Legacy-branch fork of YimMenu maintained by Mr-X-GTA. Best free legacy option available.</div>
+      <div class="card-foot"><span>github.com/Mr-X-GTA</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://github.com/Deadlineem/Chronix" target="_blank" data-tags="gta legacy chronix">
+      <div class="card-head"><div class="card-title">GTA Legacy · Chronix</div><span class="badge b-warn">Untrusted</span></div>
+      <div class="card-desc">Alternative legacy menu. Warning: source may be untrusted — scan before running.</div>
+      <div class="card-foot"><span>github.com/Deadlineem</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://cherax.menu/" target="_blank" data-tags="gta cherax menu paid legacy enhanced">
+      <div class="card-head"><div class="card-title">GTA · Cherax</div><span class="badge b-paid">Paid · Both</span></div>
+      <div class="card-desc">The premium standard — supports both Legacy and Enhanced. Widely considered the best all-around GTA menu.</div>
+      <div class="card-foot"><span>cherax.menu</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.unknowncheats.me/forum/garry-s-mod/758742-mayrrx64.html" target="_blank" data-tags="garrys mod gmod mayrrx64">
+      <div class="card-head"><div class="card-title">Garry's Mod · Mayrrx64</div><span class="badge b-free">Free</span></div>
+      <div class="card-desc">64-bit GMod cheat. Clean feature set, community-tested. Solid pick for messing around on sandbox servers.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://bakkesmod.com/" target="_blank" data-tags="rocket league bakkesmod mod">
+      <div class="card-head"><div class="card-title">Rocket League · BakkesMod</div><span class="badge b-info">Mod</span></div>
+      <div class="card-desc">The universally-loved Rocket League modding platform. Training packs, custom camera, freeplay tools, plugins.</div>
+      <div class="card-foot"><span>bakkesmod.com</span><span class="arrow">→</span></div>
+    </a>
+
+  </div>
+</section>
+
+<!-- HORROR / CO-OP -->
+<section class="grid-wrap" id="horror">
+  <div class="section-title"><h2>Horror & Co-op</h2><span class="count">// 6 entries</span></div>
+  <div class="grid">
+
+    <a class="card" href="https://fearlessrevolution.com/viewtopic.php?t=39962" target="_blank" data-tags="left 4 dead 2 l4d2">
+      <div class="card-head"><div class="card-title">Left 4 Dead 2 · CE Table</div><span class="badge b-free">Free</span></div>
+      <div class="card-desc">Cheat Engine table for L4D2 via Fearless Revolution. Health, ammo, common flags — the classic loadout.</div>
+      <div class="card-foot"><span>fearlessrevolution.com</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://github.com/scp222thj/MalumMenu" target="_blank" data-tags="among us malum menu">
+      <div class="card-head"><div class="card-title">Among Us · MalumMenu</div><span class="badge b-hot">Popular</span></div>
+      <div class="card-desc">Full-featured Among Us mod menu. Open source, huge feature list, still actively updated.</div>
+      <div class="card-foot"><span>github.com/scp222thj</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://github.com/winstxnhdw/lc-hax" target="_blank" data-tags="lethal company lc-hax">
+      <div class="card-head"><div class="card-title">Lethal Company · lc-hax</div><span class="badge b-free">Free</span></div>
+      <div class="card-desc">The go-to Lethal Company cheat. Clean GitHub source, spectator-friendly features.</div>
+      <div class="card-foot"><span>github.com/winstxnhdw</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.unknowncheats.me/forum/lethal-company/" target="_blank" data-tags="lethal company forum more">
+      <div class="card-head"><div class="card-title">Lethal Company · UC Forum</div><span class="badge b-info">More</span></div>
+      <div class="card-desc">Full UnknownCheats subforum for Lethal Company — releases, source drops, discussions.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.unknowncheats.me/forum/phasmophobia/752142-phasmounlocker-cosmetic-badges-ids-clothes.html" target="_blank" data-tags="phasmophobia unlocker cosmetic">
+      <div class="card-head"><div class="card-title">Phasmophobia · PhasmoUnlocker</div><span class="badge b-info">Unlocker</span></div>
+      <div class="card-desc">Cosmetic unlocker — badges, IDs, clothes. No gameplay hooks, just vanity.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.unknowncheats.me/forum/phasmophobia/747979-phasmophobia-ext.html" target="_blank" data-tags="phasmophobia external">
+      <div class="card-head"><div class="card-title">Phasmophobia · External</div><span class="badge b-free">External</span></div>
+      <div class="card-desc">External Phasmo cheat. ESP for the ghost, evidence helpers, general awareness suite.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.unknowncheats.me/forum/other-games/755097-backrooms-escape-cheat-release.html" target="_blank" data-tags="backrooms escape together">
+      <div class="card-head"><div class="card-title">Backrooms: Escape Together</div><span class="badge b-free">Cheat</span></div>
+      <div class="card-desc">Public release cheat for Backrooms: Escape Together. Useful for surviving the endless yellow.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+  </div>
+</section>
+
+<!-- MINECRAFT -->
+<section class="grid-wrap" id="minecraft">
+  <div class="section-title"><h2>Minecraft Ecosystem</h2><span class="count">// 5 entries</span></div>
+  <div class="grid">
+
+    <a class="card" href="https://horion.download/" target="_blank" data-tags="minecraft bedrock horion">
+      <div class="card-head"><div class="card-title">Bedrock · Horion</div><span class="badge b-hot">Classic</span></div>
+      <div class="card-desc">The long-standing Bedrock client. Modules, PvP tools, utilities — the household name for MCBE.</div>
+      <div class="card-foot"><span>horion.download</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.meteorclient.com/" target="_blank" data-tags="minecraft java meteor client">
+      <div class="card-head"><div class="card-title">Java · Meteor Client</div><span class="badge b-hot">Best Java</span></div>
+      <div class="card-desc">The gold-standard Java utility client. Open-source Fabric mod, insanely feature-rich, actively maintained.</div>
+      <div class="card-foot"><span>meteorclient.com</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://flarial.xyz/" target="_blank" data-tags="minecraft bedrock flarial client">
+      <div class="card-head"><div class="card-title">Bedrock · Flarial</div><span class="badge b-free">Client</span></div>
+      <div class="card-desc">Modern Bedrock client with a clean UI. Growing feature set, good pick alongside Horion.</div>
+      <div class="card-foot"><span>flarial.xyz</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://github.com/fligger/FateInjector" target="_blank" data-tags="minecraft bedrock fate injector">
+      <div class="card-head"><div class="card-title">Bedrock · FateInjector</div><span class="badge b-info">Injector</span></div>
+      <div class="card-desc">DLL injector tailored for Bedrock clients. Needed if your loader of choice ships without one.</div>
+      <div class="card-foot"><span>github.com/fligger</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.youtube.com/@Itsme64/videos" target="_blank" data-tags="minecraft bedrock youtube channel hacks">
+      <div class="card-head"><div class="card-title">Itsme64 · Bedrock Hacks YT</div><span class="badge b-info">Channel</span></div>
+      <div class="card-desc">Reliable YouTube channel covering Bedrock hacks, client updates, and setup walkthroughs.</div>
+      <div class="card-foot"><span>youtube.com/@Itsme64</span><span class="arrow">→</span></div>
+    </a>
+
+  </div>
+</section>
+
+<!-- MISC -->
+<section class="grid-wrap" id="misc">
+  <div class="section-title"><h2>Miscellaneous</h2><span class="count">// 2 entries</span></div>
+  <div class="grid">
+
+    <a class="card" href="https://weao.gg/" target="_blank" data-tags="roblox cheats weao">
+      <div class="card-head"><div class="card-title">Roblox · WEAO</div><span class="badge b-hot">Directory</span></div>
+      <div class="card-desc">Central hub for Roblox exploits and executors. Version tracking, status pages, launcher downloads.</div>
+      <div class="card-foot"><span>weao.gg</span><span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="https://www.reddit.com/r/PiratedGames/" target="_blank" data-tags="pirated games reddit">
+      <div class="card-head"><div class="card-title">r/PiratedGames</div><span class="badge b-hot">Community</span></div>
+      <div class="card-desc">The main Reddit hub for pirated game releases, megathreads, verified uploaders, and repack news.</div>
+      <div class="card-foot"><span>reddit.com</span><span class="arrow">→</span></div>
+    </a>
+
+  </div>
+</section>
+
+<!-- UTILITY -->
+<section class="grid-wrap" id="utility">
+  <div class="section-title"><h2>Utility & Recovery</h2><span class="count">// 1 entry</span></div>
+  <div class="grid">
+
+    <a class="card" href="https://www.unknowncheats.me/forum/anti-cheat-bypass/676059-2024-unban-method-eac.html" target="_blank" data-tags="unban method eac anti cheat bypass">
+      <div class="card-head"><div class="card-title">EAC · Unban Method (2024)</div><span class="badge b-hot">Most Requested</span></div>
+      <div class="card-desc">The community's most-requested EAC unban walkthrough. Hardware ID recovery, spoofing steps, and pitfalls to avoid.</div>
+      <div class="card-foot"><span>unknowncheats.me</span><span class="arrow">→</span></div>
+    </a>
+
+  </div>
+</section>
+
+<footer>
+  <div class="warn">⚠ Everything linked is external. Scan every binary you download. Never inject anything into your main account. Spoof your hardware ID before touching any anti-cheat.</div>
+  <div>ROGUE//vault · 2026 · a curated index, nothing hosted locally</div>
+</footer>
+
+<script>
+  const box = document.getElementById('searchBox');
+  const cards = document.querySelectorAll('.card');
+  const sections = document.querySelectorAll('section.grid-wrap');
+
+  box.addEventListener('input', e => {
+    const q = e.target.value.toLowerCase().trim();
+    cards.forEach(c => {
+      const text = (c.textContent + ' ' + (c.dataset.tags || '')).toLowerCase();
+      c.style.display = text.includes(q) ? '' : 'none';
+    });
+    sections.forEach(s => {
+      const visible = [...s.querySelectorAll('.card')].some(c => c.style.display !== 'none');
+      s.style.display = visible ? '' : 'none';
+    });
+  });
+</script>
+
+</body>
+</html>
