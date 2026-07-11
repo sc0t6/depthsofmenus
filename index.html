@@ -20,6 +20,7 @@
     --warn:#ffb800;
     --danger:#ff3d3d;
   }
+  
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
@@ -42,6 +43,22 @@
   }
 
   /* NAV */
+  .filter-bar{
+  max-width:1280px;margin:0 auto;padding:0 24px 8px;
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;
+}
+.filter-btn{
+  background:var(--panel);border:1px solid var(--border);color:var(--muted);
+  padding:9px 18px;border-radius:999px;font-size:13px;font-weight:600;font-family:inherit;
+  cursor:pointer;transition:.2s;
+}
+.filter-btn:hover{color:var(--text);border-color:var(--accent);}
+.filter-btn.active{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#0a0a0f;border-color:transparent;
+}
+.card.hidden{display:none;}
+.section.hidden{display:none;}
   header{
     position:sticky;top:0;z-index:100;
     backdrop-filter:blur(14px);
@@ -299,6 +316,15 @@
     </ul>
   </nav>
 </header>
+  <div class="filter-bar" id="filters">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="free">Free</button>
+  <button class="filter-btn" data-filter="paid">Paid</button>
+  <button class="filter-btn" data-filter="unlocker">Unlockers</button>
+  <button class="filter-btn" data-filter="cheat">Cheats</button>
+  <button class="filter-btn" data-filter="ai">AI</button>
+  <button class="filter-btn" data-filter="engine">Cheat Engine</button>
+</div>
 
 <div class="hero">
   <div class="hero-tag">// v2026.07 · online</div>
@@ -555,6 +581,23 @@
 </footer>
 
 <script>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.card').forEach(card => {
+      const type = (card.dataset.type || '').toLowerCase();
+      card.classList.toggle('hidden', f !== 'all' && !type.includes(f));
+    });
+    document.querySelectorAll('.section').forEach(sec => {
+      const visible = sec.querySelectorAll('.card:not(.hidden)').length;
+      sec.classList.toggle('hidden', visible === 0);
+    });
+  });
+});
+  
   const box = document.getElementById('searchBox');
   const cards = document.querySelectorAll('.card');
   const sections = document.querySelectorAll('section.grid-wrap');
